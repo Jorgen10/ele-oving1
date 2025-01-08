@@ -7,20 +7,28 @@
 clear; close all;clc
 
 % Leser inn målinger. 
-measurements = readtable('Inclination.....xls');
+measurements = readtable('Inclination-2025-01-07 14-12-11.xls');
 t = measurements{:,1};
 x = measurements{:,2};
 
 % Justerer datasettet
-t = ..;
-x = ..;
-
+t = [0; t];
+x = [x(1); x];
+middelverdi = [mean(x); mean(x)];
+fullTid = [t(1); t(end)];
+xStd = [std(x); std(x)];
 figure
 plot(t,x,'b-x')
+hold on
+plot(fullTid, middelverdi + xStd, '-')
+hold on
+plot(fullTid, middelverdi)
+hold on
+plot(fullTid, middelverdi - xStd)
 grid on
 xlabel('tid [s]')
 ylabel('Vinkel [$^{\circ}$]')
-legend('M{\aa}linger $\{x_k$\}')
+legend('M{\aa}linger $\{x_k\}$')
 
 % title-funksjon kan brukes på følgende måte
 %  - title(' ....  ')                     % 1 linje med ren tekst
