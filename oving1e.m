@@ -8,14 +8,22 @@
 clear; close all; clc
 
 % Leser inn målinger.
-measurements = readtable('Inclination.....xls');
+measurements = readtable('Inclination-2025-01-07 14-12-11.xls');
 t = measurements{:,1};
 x = measurements{:,2};
 
 % Justerer datasett
-t = ..;
-x = ..;
+t = [0; t];
+x = [x(1); x];
 
+nbins = 20;
+% String representasjon av edges
+strEdges = '[-30:5:100]';
+% Konverterer strEdges til et num-array
+% Det betyr at en variabel oppdaterer alt
+% Prøvde num2str(edges), men fikk da alle edges ut, noe som ikke så bra ut
+% Dette løser problemet
+edges = str2num(strEdges);
 
 figure
 subplot(2,1,1)
@@ -41,11 +49,13 @@ legend('M{\aa}linger $\{x_k$\}')
 % du kan bruke i programmeringen. 
 
 subplot(2,1,2)
-x_prop = histogram(x)  % ---> sjekk Command Window
+x_prop = histogram(x);  % ---> sjekk Command Window
+
 ylabel(['\# m{\aa}linger i intervallene']);
 xlabel('Intervall i $\{x_k\}$')
 title('Automatisk inndeling i intervall ved bruk av {\tt histogram(x)}')
-xlim(x_prop.BinLimits)
+xlim(x_prop.BinLimits);
+
 
 
 %--------------------------------------
@@ -56,6 +66,12 @@ figure(2)
 % Plotter histogrammet til x hvor vi styrer
 % antall intervall (nbins)
 subplot(2,1,1)
+x_prop = histogram(x);
+x_prop.NumBins = nbins;
+xlim(x_prop.BinLimits)
+ylabel(['\# m{\aa}linger i intervallene']);
+xlabel('Intervall i $\{x_k\}$')
+title(['Selvvalgt oppdeling i {\tt nbins=}' num2str(nbins) ' intervall'])
 
 
 
@@ -64,9 +80,13 @@ subplot(2,1,1)
 %   - intervallbredden (step) 
 % edges = min:step:max
 subplot(2,1,2)
-
-
-
-
-% Indikering av middelverdi og standardavvik i 
-% ett av histogrammene
+x_prop = histogram(x);
+hold on
+x_prop.BinEdges = edges;
+xline(mean(x), 'r', 'LineWidth', 2)
+plot([mean(x),std(x)+mean(x)],[8, 8], 'g', 'LineWidth', 2)
+xlim(x_prop.BinLimits)
+ylabel(['\# m{\aa}linger i intervallene']);
+xlabel('Intervall i $\{x_k\}$')
+legend('Fordeing av m{\aa}lingene $\{x_k\}$', ['Middelverdi $\{\bar{x}\}=$' num2str(mean(x))], ['Standardavvik ' '$\{\sigma\}$=' num2str(std(x))])
+title(['Selvvalgt oppdeling av intervall som {\tt edges=}' strEdges])
