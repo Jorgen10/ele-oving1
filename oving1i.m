@@ -8,9 +8,9 @@ clear; close all; clc
 
 U = 4;
 w = 7;
-C = 0.4;
+C = 0;
 
-disp(-(U/w)*cos(w*0.5) + C*0.5 + (U/w))
+disp(-(U/w)*cos(w*1) + C*1 + (U/w))
 
 %------------------------------------
 % Figur 1 med 3x1 subplot
@@ -19,7 +19,7 @@ figure(1)
 set(gcf,'position',[1000 500 450 600])
 
 % Juster på denne
-ant_runder = 1;
+ant_runder = 3;
 
 for i = 1:ant_runder
     t = 0:0.01:5;
@@ -46,8 +46,8 @@ for i = 1:ant_runder
     title(['$y(t) = -\frac{U}{\omega}\cdot \cos(\omega\cdot t) +C\cdot t + \frac{U}{\omega}$'])
     
     % justering av C og/eller vinkelfrekvens w
-    C = C - 0.4;
-    %w = w - 2;
+    %C = C - 0.4;
+    w = w - 2;
 end
 
 
