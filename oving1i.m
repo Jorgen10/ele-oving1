@@ -10,6 +10,8 @@ U = 4;
 w = 7;
 C = 0.4;
 
+disp(-(U/w)*cos(w*0.5) + C*0.5 + (U/w))
+
 %------------------------------------
 % Figur 1 med 3x1 subplot
 %------------------------------------
@@ -21,14 +23,15 @@ ant_runder = 1;
 
 for i = 1:ant_runder
     t = 0:0.01:5;
-    u = ..
-    y = ..
+    u = U*sin(w*t)+C;
+    y = -(U/w)*cos(w*t) + C*t + (U/w);
+    
 
     subplot(3,1,1)
     plot(t,u,'Linewidth',2)
     hold on
     grid
-    title('$u(t) = ..$')
+    title('$u(t) = U\cdot \sin(\omega\cdot t) + C$')
 
     subplot(3,1,2)
     area(t,u)
@@ -40,8 +43,7 @@ for i = 1:ant_runder
     plot(t,y,'LineWidth',2)
     grid
     hold on
-    title(['$y(t) = ... $',...
-        '$ ... $'])
+    title(['$y(t) = -\frac{U}{\omega}\cdot \cos(\omega\cdot t) +C\cdot t + \frac{U}{\omega}$'])
     
     % justering av C og/eller vinkelfrekvens w
     C = C - 0.4;
